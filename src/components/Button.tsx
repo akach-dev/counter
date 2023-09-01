@@ -4,7 +4,7 @@ import styled from "styled-components";
 type ButtonPropsType = {
   callback: () => void
   name: string
-  disabled: boolean
+  disabled?: boolean
 }
 
 export const Button: FC<ButtonPropsType> = ({name, callback, disabled}) => {

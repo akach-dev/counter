@@ -5,12 +5,11 @@ import {Button} from "./components/Button";
 
 
 function App() {
-
-  let {reset, increment, counter} = useCount(0)
+  const {reset, increment, counter} = useCount(0)
   return (
      <S.App>
        <S.Wrapper>
-         <S.Counter>{counter}</S.Counter>
+         <S.Counter counter={counter}>{counter}</S.Counter>
          <S.CounterButtons>
            <Button disabled={counter > 4} callback={increment} name={"increment"}/>
            <Button disabled={!counter} callback={reset} name={'reset'}/>
