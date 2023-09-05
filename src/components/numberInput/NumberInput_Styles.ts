@@ -1,15 +1,17 @@
 import styled from "styled-components";
 
+
 type InputProps = {
-  error: boolean
+  error: string
 }
+
 
 const Input = styled.input<InputProps>`
   text-align: center;
   padding: 7px 0;
   border-radius: 5px;
   border: 2px solid darkcyan;
-  background-color: white;
+  background-color: ${({error}) => error === 'true' && 'red'};
   max-width: 50%;
 `
 

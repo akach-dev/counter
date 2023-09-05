@@ -29,11 +29,9 @@ function App() {
 
   }, [maxValue, counter]);
 
-
   const error = counter < 0 || maxValue <= counter
 
   const setHandler = () => setIsOpen(!isOpen)
-
 
   const resetHandler = () => {
     reset()
@@ -47,11 +45,11 @@ function App() {
             <S.Values>
               <S.Value>
                 <span>max value: </span>
-                <NumberInput value={maxValue} setValue={setMaxValue} error={error}/>
+                <NumberInput value={maxValue} setValue={setMaxValue} error={error.toString()}/>
               </S.Value>
               <S.Value>
                 <span>start value: </span>
-                <NumberInput value={counter} setValue={setCounter} error={error}/>
+                <NumberInput value={counter} setValue={setCounter} error={error.toString()}/>
               </S.Value>
             </S.Values>
             <S.ButtonWrapper>

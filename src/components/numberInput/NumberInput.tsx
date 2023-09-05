@@ -4,7 +4,7 @@ import {S} from "./NumberInput_Styles";
 type NumberInputPropsType = {
   value: number
   setValue: (value: number) => void
-  error: boolean
+  error: string
 }
 
 export const NumberInput: FC<NumberInputPropsType> = ({value, setValue, error}) => {
