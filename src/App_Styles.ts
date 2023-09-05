@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 type CounterPropsType = {
   counter: number
+  maxvalue: number
 }
 
 
@@ -9,6 +10,7 @@ const App = styled.div`
   height: 100vh;
   background-color: darkcyan;
   display: flex;
+  column-gap: 1rem;
   justify-content: center;
   align-items: center;
 `
@@ -32,7 +34,7 @@ const Counter = styled.div<CounterPropsType>`
   text-align: center;
   padding: 40px;
   font-size: 3rem;
-  color: ${({counter}) => counter === 5 && 'red'};
+  color: ${({counter, maxvalue}) => counter === maxvalue && 'red'};
 `
 
 const CounterButtons = styled.div`
@@ -45,6 +47,30 @@ const CounterButtons = styled.div`
   }
 `
 
+const Values = styled.div`
+  padding: 40px;
+  border: 2px solid bisque;
+  border-radius: 5px;
+
+`
+const Value = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & span {
+    font-weight: 600;
+    color: rgba(45, 1, 47, 0.5);
+  }
+`
+const ButtonWrapper = styled.div`
+  border: 2px solid bisque;
+  border-radius: 5px;
+  padding: .3rem;
+  width: 100%;
+  text-align: center;
+`
+
 export const S = {
-  App, Wrapper, Counter, CounterButtons
+  App, Wrapper, Counter, CounterButtons, Values, Value, ButtonWrapper
 }

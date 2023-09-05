@@ -1,20 +1,74 @@
-import React from 'react';
 import {S} from "./App_Styles";
 import {useCount} from "./hooks/useCounter";
-import {Button} from "./components/Button";
+import {Button} from "./components/button/Button";
+import {NumberInput} from "./components/numberInput/NumberInput";
+import {useEffect, useState} from "react";
 
 
 function App() {
-  const {reset, increment, counter} = useCount(0)
+  const [maxValue, setMaxValue] = useState(5)
+  const [isOpen, setIsOpen] = useState(false)
+  const {reset, increment, counter, setCounter} = useCount(0)
+
+  useEffect(() => {
+    const newMaxValue = localStorage.getItem('maxValue')
+    const newStartValue = localStorage.getItem('startValue')
+
+    if (newMaxValue && newStartValue) {
+      const maxValue = JSON.parse(newMaxValue)
+      const counter = JSON.parse(newStartValue)
+      setMaxValue(maxValue)
+      setCounter(counter)
+    }
+
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('maxValue', JSON.stringify(maxValue))
+    localStorage.setItem('startValue', JSON.stringify(counter))
+
+  }, [maxValue, counter]);
+
+
+  const error = counter < 0 || maxValue <= counter
+
+  const setHandler = () => setIsOpen(!isOpen)
+
+
+  const resetHandler = () => {
+    reset()
+    localStorage.clear()
+  }
+
   return (
      <S.App>
-       <S.Wrapper>
-         <S.Counter counter={counter}>{counter}</S.Counter>
-         <S.CounterButtons>
-           <Button disabled={counter > 4} callback={increment} name={"increment"}/>
-           <Button disabled={!counter} callback={reset} name={'reset'}/>
-         </S.CounterButtons>
-       </S.Wrapper>
+       {isOpen ? (
+          <S.Wrapper>
+            <S.Values>
+              <S.Value>
+                <span>max value: </span>
+                <NumberInput value={maxValue} setValue={setMaxValue} error={error}/>
+              </S.Value>
+              <S.Value>
+                <span>start value: </span>
+                <NumberInput value={counter} setValue={setCounter} error={error}/>
+              </S.Value>
+            </S.Values>
+            <S.ButtonWrapper>
+              <Button disabled={error} callback={setHandler} name={'set'}/>
+            </S.ButtonWrapper>
+          </S.Wrapper>
+       ) : (
+          <S.Wrapper>
+            <S.Counter maxvalue={maxValue} counter={counter}>{counter}</S.Counter>
+            <S.CounterButtons>
+              <Button disabled={counter >= maxValue} callback={increment} name={"increment"}/>
+              <Button disabled={!counter} callback={resetHandler} name={'reset'}/>
+              <Button callback={setHandler} name={'set'}/>
+            </S.CounterButtons>
+          </S.Wrapper>
+       )
+       }
      </S.App>
   );
 }
