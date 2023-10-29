@@ -23,9 +23,9 @@ export const countReducer = (state: InitialStateType = initialState, action: Act
 
 
 // actionCreators
-const incrementAC = () => ({type: 'INCREMENT'} as const)
-const resetAC = () => ({type: 'RESET'} as const)
-const setContToLocalStorageAC = (value: number) => ({type: 'SET-COUNT', value} as const)
+export const incrementAC = () => ({type: 'INCREMENT'} as const)
+export const resetAC = () => ({type: 'RESET'} as const)
+export const setContToLocalStorageAC = (value: number) => ({type: 'SET-COUNT', value} as const)
 
 // types
 type ActionType = IncrementActionType | ResetActionType | SetContToLocalStorageActionType

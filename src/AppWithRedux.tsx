@@ -6,46 +6,32 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./bll/store";
 import {setMaxValueAC} from "./bll/maxValueReducer";
+import {incrementAC, resetAC, setContToLocalStorageAC} from "./bll/countReducer";
 
 
 function AppWithRedux() {
-  // const [maxValue, setMaxValue] = useState(5)
+
   const [isOpen, setIsOpen] = useState(false)
-  const {reset, increment, counter, setCounter} = useCount(0)
 
   const dispatch = useDispatch()
   const maxValue = useSelector<AppRootStateType, number>(state => state.maxStateValue.maxValue)
+  const count = useSelector<AppRootStateType, number>(state => state.counter.count)
 
-  // useEffect(() => {
-  //   const newMaxValue = localStorage.getItem('maxValue')
-  //   const newStartValue = localStorage.getItem('startValue')
-  //
-  //   if (newMaxValue && newStartValue) {
-  //     const maxValue = JSON.parse(newMaxValue)
-  //     const counter = JSON.parse(newStartValue)
-  //     setMaxValue(maxValue)
-  //     setCounter(counter)
-  //   }
-  //
-  // }, []);
-  //
-  // useEffect(() => {
-  //   localStorage.setItem('maxValue', JSON.stringify(maxValue))
-  //   localStorage.setItem('startValue', JSON.stringify(counter))
-  //
-  // }, [maxValue, counter]);
 
   const setMaxValue = (value: number) => dispatch(setMaxValueAC(value))
 
-
-  const error = counter < 0 || maxValue <= counter
+  const error = count < 0 || maxValue <= count
 
   const setHandler = () => setIsOpen(!isOpen)
 
   const resetHandler = () => {
     localStorage.clear()
-    reset()
+    dispatch(resetAC())
   }
+
+  const setCounter = (value: number) => dispatch(setContToLocalStorageAC(value))
+
+  const increment = () => dispatch(incrementAC())
 
   return (
      <S.App>
@@ -58,7 +44,7 @@ function AppWithRedux() {
               </S.Value>
               <S.Value>
                 <span>start value: </span>
-                <NumberInput value={counter} setValue={setCounter} error={error.toString()}/>
+                <NumberInput value={count} setValue={setCounter} error={error.toString()}/>
               </S.Value>
             </S.Values>
             <S.ButtonWrapper>
@@ -67,10 +53,10 @@ function AppWithRedux() {
           </S.Wrapper>
        ) : (
           <S.Wrapper>
-            <S.Counter maxvalue={maxValue} counter={counter}>{counter}</S.Counter>
+            <S.Counter maxvalue={maxValue} counter={count}>{count}</S.Counter>
             <S.CounterButtons>
-              <Button disabled={counter >= maxValue} callback={increment} name={"increment"}/>
-              <Button disabled={!counter} callback={resetHandler} name={'reset'}/>
+              <Button disabled={count >= maxValue} callback={increment} name={"increment"}/>
+              <Button disabled={!count} callback={resetHandler} name={'reset'}/>
               <Button callback={setHandler} name={'set'}/>
             </S.CounterButtons>
           </S.Wrapper>
